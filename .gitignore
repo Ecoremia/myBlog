@@ -1,0 +1,38 @@
+*.class
+*.log
+*.lock
+I
+# Package Files #
+*.jar
+*.war
+*.ear
+target/
+
+# idea
+.idea/
+*.iml
+
+*velocity.log*
+
+###STS ###
+.apt_generated
+.factorypath
+.springBeans
+
+###Intelli IDEA###
+*.iml
+*.ipr
+*.iws
+.idea
+.classpath
+.project
+.settings/
+bin/
+
+*.log
+tmp/
+
+#rebel
+*rebel.xml*
+
+
