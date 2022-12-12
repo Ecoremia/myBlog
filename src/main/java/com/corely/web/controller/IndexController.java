@@ -1,37 +1,65 @@
 package com.corely.web.controller;
 
-import com.corely.handler.NotFoundException;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.corely.Utils.MarkdownUtils;
+import com.corely.entity.Blog;
+import com.corely.service.BlogService;
+import com.corely.service.TypeService;
+import com.corely.vo.BlogDetail;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
+/**
+ * 博客首页的controlller
+ */
 @Controller
 public class IndexController {
+    @Autowired
+    private BlogService blogService;
+    @Autowired
+    private TypeService typeService;
+    //跳转到博客首页
     @GetMapping("/")
-    public String index(){
+    public String index(Model model,Integer current){
+        /**
+         * 首页还有很多内容没展示。可以好好考虑一下自己究竟想要展示什么内容
+         * 标签啊，最新评论之类的
+         */
+        Page<Object> page = new Page<>();
+        if(current==null){
+            current = 1;
+        }
+        page.setCurrent(current);
+        page.setDesc("create_time");
+        page.setSize(10);
+        model.addAttribute("page",blogService.getBlogListForShow(page));
+        model.addAttribute("hasPrev",page.hasPrevious());
+        model.addAttribute("hasNext",page.hasNext());
+
         return "index";
     }
-    @GetMapping("/blog")
-    public String blog(){
+    //博客详情页
+    @GetMapping("/toBlogDetail")
+    public String blog(Long id,Model model){
+        BlogDetail blog = blogService.getBlogDetailById(id);
+        //需要对博客的markdown编辑下的内容进行一个对应转化
+        blog.setContent(MarkdownUtils.markdownToHtml(blog.getContent()));
+        model.addAttribute("blog",blog);
         return "blog";
     }
-    @GetMapping("/archives")
-    public String archives(){
-        return "archives";
-    }
-    @GetMapping("/tags")
-    public String tags(){
-        return "tags";
-    }
-    @GetMapping("/types")
-    public String types(){
-        return "types";
-    }
-    @GetMapping("/admin/blog")
-    public String adblog(){
-        return "admin/adblog";
-    }
-    @GetMapping("/admin/input")
-    public String adinput(){
-        return "admin/adinput";
+    @PostMapping("/search")
+    public String searchBlog(String query,Model model){
+        Page<Object> page = new Page<>();
+        page.setCurrent(1);
+        page.setDesc("create_time");
+        page.setSize(10);
+        model.addAttribute("page",blogService.getBlogListByQuery(query,page));
+        model.addAttribute("hasPrev",page.hasPrevious());
+        model.addAttribute("hasNext",page.hasNext());
+        model.addAttribute("query",query);
+        return "search";
     }
 }

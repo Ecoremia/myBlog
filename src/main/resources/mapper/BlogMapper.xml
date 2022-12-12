@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corely.dao.BlogMapper">
+<!--    blog的原始ResultMap-->
+    <resultMap id="BaseResultMap" type="com.corely.entity.Blog">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="appreciation" column="appreciation" jdbcType="BIT"/>
+            <result property="commentabled" column="commentabled" jdbcType="BIT"/>
+            <result property="content" column="content" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="firstPicture" column="first_picture" jdbcType="VARCHAR"/>
+            <result property="flag" column="flag" jdbcType="VARCHAR"/>
+            <result property="published" column="published" jdbcType="BIT"/>
+            <result property="recommend" column="recommend" jdbcType="BIT"/>
+            <result property="shareStatement" column="share_statement" jdbcType="BIT"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="views" column="views" jdbcType="VARCHAR"/>
+            <result property="typeId" column="type_id" jdbcType="BIGINT"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="commentCount" column="comment_count" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,appreciation,commentabled,
+        content,create_time,first_picture,
+        flag,published,recommend,
+        share_statement,title,update_time,
+        views,type_id,user_id,
+        description,comment_count
+    </sql>
+<!--    多表查询-->
+    <select id="selectBlogByCondition" parameterType="com.corely.vo.BlogSearch" resultType="com.corely.vo.BlogQuery">
+    select b.id,b.title,t.name as typeName,b.recommend,b.create_time,b.update_time from t_blog b
+    inner join t_type t on t.id = b.type_id
+    <where>
+    b.published = true
+    <if test="blogSearch!=null">
+        <if test="blogSearch.title != null">
+            and b.title like '%' #{blogSearch.title} '%'
+        </if>
+        <if test="blogSearch.typeId != null">
+            and b.type_id = #{blogSearch.typeId}
+        </if>
+        <if test="blogSearch.recommend != null">
+            and b.recommend = #{blogSearch.recommend}
+        </if>
+    </if>
+    </where>
+    </select>
+    <select id="selectBlogForShow" resultType="com.corely.vo.BlogShow">
+        select b.id,b.title,b.description,u.username,u.avatar,b.create_time,b.views,b.first_picture,t.name as typeName
+        from t_blog b
+        inner join t_user u on b.user_id = u.id
+        inner join t_type t on t.id = b.type_id
+        where b.published = true
+    </select>
+    <select id="getBlogListByQuery" resultType="com.corely.vo.BlogShow">
+        select b.id,b.title,b.description,u.username,u.avatar,b.create_time,b.views,b.first_picture,t.name as typeName
+        from t_blog b
+        inner join t_user u on b.user_id = u.id
+        inner join t_type t on t.id = b.type_id
+        where b.title like '%' #{query} '%'
+        or b.content like '%' #{query} '%'
+    </select>
+    <select id="getBlogDetailById" resultType="com.corely.vo.BlogDetail" parameterType="long">
+    select b.id,b.title,b.appreciation,b.commentabled,b.content,b.create_time,b.first_picture,b.share_statement,b.update_time,b.views,b.comment_count,t.name as typeName,u.username,u.avatar,b.flag
+    from t_blog b
+    inner join t_type t on b.type_id = t.id
+    inner join t_user u on b.user_id = u.id
+    where b.id = #{id}
+    </select>
+</mapper>

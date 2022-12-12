@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,8 +20,10 @@
                 <a href="#" class="m-item item m-mobile-hide"><i class=" info icon"></i>关于我</a>
                 <div class="m-item right item m-mobile-hide">
                     <div class="ui icon inverted transparent input">
-                        <input type="text" placeholder="Search...">
-                        <i class="search icon link"></i>
+                        <form name="search" action="#" method="post" th:action="@{/search}" target="_blank">
+                            <input type="text" name="query" placeholder="搜索">
+                            <i onclick="document.forms['search'].submit()" class="search icon link"></i>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -43,47 +45,47 @@
                                 <h3 class="ui teal header">博客</h3>
                             </div>
                             <div class="right aligned column">
-                                共 <h2 class="ui orange header m-inline-block m-text-thin"> 14 </h2>篇
+                                共 <h2 class="ui orange header m-inline-block m-text-thin"> [[${page.total}]] </h2>篇
                             </div>
                         </div>
                     </div>
 <!--                    中间内容-->
                     <div class="ui attached segment ">
 <!--                        第一篇-->
-                        <div class="ui segment vertical padded m-padded-tb-large">
+                        <div class="ui segment vertical padded m-padded-tb-large" th:each="blog:${page.records}">
                             <div class="ui mobile reversed stackable grid">
 <!--                                博客内容的简介-->
                                 <div class="eleven wide column">
-                                    <h3 class="ui header">博客标题</h3>
-                                    <p class="m-text">工作前喜欢穿jk，工作后考虑到工作性质不穿了，但开始尝试其他各种风格，有时候朋友也会说我你穿这件裙子显胖，但我都是很无所谓，反正我喜欢我，我觉得好看，就行了，不用在意别人的眼光。当你真的穿出去了你会发现——穿好看的裙子人是真的会很开心！！！！</p>
+                                    <h3 class="ui header"><a class="m-black" th:href="@{/toBlogDetail(id=${blog.id})}">[[${blog.title}]]</a></h3>
+                                    <p class="m-text" th:text="${blog.description}">工作前喜欢穿jk，工作后考虑到工作性质不穿了，但开始尝试其他各种风格，有时候朋友也会说我你穿这件裙子显胖，但我都是很无所谓，反正我喜欢我，我觉得好看，就行了，不用在意别人的眼光。当你真的穿出去了你会发现——穿好看的裙子人是真的会很开心！！！！</p>
                                     <div class="ui grid">
                                         <div class="eleven wide column">
                                             <div class="ui horizontal link list mini">
                                                 <div class="item">
-                                                    <img src="images/img1.jpg" alt="" class="ui avatar image">
-                                                    <div class="content"><a href="#" class="header">miko酱</a></div>
+                                                    <img src="images/img1.jpg" th:src="${blog.avatar}" alt="" class="ui avatar image">
+                                                    <div class="content"><a href="#" class="header" >[[${blog.username}]]</a></div>
                                                 </div>
                                                 <div class="item">
-                                                    <i class="calendar icon"></i>2022/10/20
-                                                </div>
+                                                    <i class="calendar icon"></i><span th:text="${#dates.format(blog.createTime,'yyyy-MM-dd')}">2022/10/20</span></div>
                                                 <div class="item">
-                                                    <i class="eye icon"></i>234
+                                                    <i class="eye icon"></i><span th:text="${blog.views}">234</span>
                                                 </div>
                                             </div>
                                         </div>
 <!--                                        博客内容的图片-->
                                         <div class="right aligned five wide column">
-                                            <a href="#" target="_blank" class="ui label teal basic label  m-padded-tiny m-text-thin">认知升级</a>
+                                            <a href="#" th:text="${blog.typeName}" target="_blank" class="ui label teal basic label  m-padded-tiny m-text-thin">认知升级</a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="five wide column">
                                     <a href="#" target="_blank">
-                                        <img src="images/img1.jpg" alt="" class="ui rounded image" height="120">
+                                        <img src="images/img1.jpg" th:src="${blog.firstPicture}"alt="" class="ui rounded image" height="120">
                                     </a>
                                 </div>
                             </div>
                         </div>
+                        <!--/*-->
                         <div class="ui segment vertical padded m-padded-tb-large">
                             <div class="ui mobile reversed stackable grid">
                                 <!--                                博客内容的简介-->
@@ -254,17 +256,17 @@
                                 </div>
                             </div>
                         </div>
-
+                        <!--*/-->
 
                     </div>
 <!--                    底部-->
-                    <div class="ui bottom attached segment">
+                    <div class="ui bottom attached segment" th:if="${page.pages>1}">
                         <div class=" ui middle aligned two column grid">
                             <div class="column">
-                                <a href="#" class="ui teal basic mini button">上一页</a>
+                                <a href="#" th:href="@{/(current=${page.current}-1)}" th:if="${page.hasPrev}" class="ui teal basic mini button">上一页</a>
                             </div>
                             <div class="right aligned column">
-                                <a href="#" class="ui teal basic mini button">下一页</a>
+                                <a href="#" th:href="@{/(current=${page.current}+1)}" th:if="${page.hasNext}" class="ui teal basic mini button">下一页</a>
                             </div>
                         </div>
                     </div>

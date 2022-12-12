@@ -1,16 +1,36 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/my_blog?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC&serverTimezone=GMT%2B8
-    username: root
-    password: corely
-    hikari:
-      max-lifetime: 500000
+    druid:
+      url: jdbc:mysql://localhost:3306/my_blog?useSSL=false&serverTimezone=GMT%2B8
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: root
+      password: corely
 
+#spring:
+# datasource:
+#   druid:
+#     driver-class-name: com.mysql.cj.jdbc.Driver
+#     url: jdbc:mysql://localhost:3306/my_blog?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+#     username: root
+#     password: corely
+#   type: com.zaxxer.hikari.HikariDataSource
+#   hikari:
+#     hikari:
+#       minimum-idle: 3
+#       maximum-pool-size: 5
+#       max-lifetime: 0
+#     max-lifetime: 500000
+#      url: jdbc:mysql://localhost:3306/my_blog?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC&serverTimezone=GMT%2B8
+
+# 控制台输出打印日志
+# mybatis日志打印----->我真的是操了，打印不了。。。无语惹
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 logging:
   level:
     root: info
-    com.star: debug
+    com.corely.dao: debug
   file:
     name: log/blog-dev.log
 
@@ -42,3 +62,9 @@ logging:
 #        min-idle: 0
 #
 #
+
+
+
+
+
+

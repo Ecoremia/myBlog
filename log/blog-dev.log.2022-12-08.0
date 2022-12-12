@@ -1,0 +1,32 @@
+2022-12-08 17:49:58.090  INFO 11352 --- [main] com.corely.MyblogApplicationTests        : Starting MyblogApplicationTests on PC-20191025ZWMM with PID 11352 (started by Administrator in D:\1javacode\04springFamilyAndComponent\myblog-mybatis-master)
+2022-12-08 17:49:58.090  INFO 11352 --- [main] com.corely.MyblogApplicationTests        : The following profiles are active: dev
+2022-12-08 17:49:59.589  INFO 11352 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-12-08 17:49:59.605  INFO 11352 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-12-08 17:49:59.674  INFO 11352 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 37ms. Found 0 Redis repository interfaces.
+2022-12-08 17:49:59.974  WARN 11352 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'blogMapper' and 'com.corely.dao.BlogMapper' mapperInterface. Bean already defined with the same name!
+2022-12-08 17:49:59.974  WARN 11352 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'blogTagsMapper' and 'com.corely.dao.BlogTagsMapper' mapperInterface. Bean already defined with the same name!
+2022-12-08 17:49:59.974  WARN 11352 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentMapper' and 'com.corely.dao.CommentMapper' mapperInterface. Bean already defined with the same name!
+2022-12-08 17:49:59.974  WARN 11352 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'messageMapper' and 'com.corely.dao.MessageMapper' mapperInterface. Bean already defined with the same name!
+2022-12-08 17:49:59.974  WARN 11352 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'tagMapper' and 'com.corely.dao.TagMapper' mapperInterface. Bean already defined with the same name!
+2022-12-08 17:49:59.974  WARN 11352 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'typeMapper' and 'com.corely.dao.TypeMapper' mapperInterface. Bean already defined with the same name!
+2022-12-08 17:49:59.974  WARN 11352 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.corely.dao.UserMapper' mapperInterface. Bean already defined with the same name!
+2022-12-08 17:49:59.974  WARN 11352 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.corely.dao]' package. Please check your configuration.
+2022-12-08 17:50:01.492  INFO 11352 --- [main] c.a.d.s.b.a.DruidDataSourceAutoConfigure : Init DruidDataSource
+2022-12-08 17:50:01.885  INFO 11352 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2022-12-08 17:50:02.709  WARN 11352 --- [main] c.b.m.core.metadata.TableInfoHelper      : Warn: Could not find @TableId in Class: com.corely.entity.BlogTags.
+2022-12-08 17:50:05.897  INFO 11352 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-12-08 17:50:06.252  INFO 11352 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2022-12-08 17:50:09.404  INFO 11352 --- [main] com.corely.MyblogApplicationTests        : Started MyblogApplicationTests in 12.067 seconds (JVM running for 13.805)
+2022-12-08 17:50:10.837 DEBUG 11352 --- [main] c.c.d.BlogMapper.selectBlogByCondition   : ==>  Preparing: SELECT COUNT(1) FROM t_blog b INNER JOIN t_type t ON t.id = b.type_id 
+2022-12-08 17:50:10.879 DEBUG 11352 --- [main] c.c.d.BlogMapper.selectBlogByCondition   : ==> Parameters: 
+2022-12-08 17:50:10.960 DEBUG 11352 --- [main] c.c.d.BlogMapper.selectBlogByCondition   : ==>  Preparing: select b.id,b.title,t.name as typeName,b.recommend,b.update_time from t_blog b inner join t_type t on t.id = b.type_id LIMIT ?,? 
+2022-12-08 17:50:10.960 DEBUG 11352 --- [main] c.c.d.BlogMapper.selectBlogByCondition   : ==> Parameters: 0(Long), 3(Long)
+2022-12-08 17:50:10.970 DEBUG 11352 --- [main] c.c.d.BlogMapper.selectBlogByCondition   : <==      Total: 1
+2022-12-08 17:50:11.000 DEBUG 11352 --- [main] com.corely.dao.TypeMapper.selectPage     : ==>  Preparing: SELECT COUNT(1) FROM t_type 
+2022-12-08 17:50:11.000 DEBUG 11352 --- [main] com.corely.dao.TypeMapper.selectPage     : ==> Parameters: 
+2022-12-08 17:50:11.009 DEBUG 11352 --- [main] com.corely.dao.TypeMapper.selectPage     : ==>  Preparing: SELECT id,name FROM t_type LIMIT ?,? 
+2022-12-08 17:50:11.010 DEBUG 11352 --- [main] com.corely.dao.TypeMapper.selectPage     : ==> Parameters: 0(Long), 3(Long)
+2022-12-08 17:50:11.011 DEBUG 11352 --- [main] com.corely.dao.TypeMapper.selectPage     : <==      Total: 3
+2022-12-08 17:50:11.091  INFO 11352 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-12-08 17:50:11.091  INFO 11352 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closing ...
+2022-12-08 17:50:11.122  INFO 11352 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
