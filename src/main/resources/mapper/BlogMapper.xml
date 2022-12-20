@@ -73,4 +73,27 @@
     inner join t_user u on b.user_id = u.id
     where b.id = #{id}
     </select>
+    <select id="getBlogListForCertainShow" resultType="com.corely.vo.BlogShow">
+        select b.id,b.title,b.description,u.username,u.avatar,b.create_time,b.views,b.first_picture,t.name as typeName
+        from t_blog b
+        inner join t_user u on b.user_id = u.id
+        inner join t_type t on t.id = b.type_id
+        <where>
+            b.published = true
+            <if test="blogSearch.typeId != null">
+                and b.type_id = #{blogSearch.typeId}
+            </if>
+        </where>
+    </select>
+    <select id="selectYear" resultType="java.lang.String">
+        SELECT DATE_FORMAT(b.create_time,'%Y') AS YEAR
+        FROM t_blog b
+        GROUP BY YEAR
+        ORDER BY YEAR DESC
+    </select>
+    <select id="findBlogByYear" resultType="com.corely.entity.Blog">
+        SELECT * FROM t_blog b
+        WHERE DATE_FORMAT(b.create_time,'%Y') = '2022'
+        AND published = TRUE
+    </select>
 </mapper>

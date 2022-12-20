@@ -28,6 +28,12 @@ public interface BlogMapper extends BaseMapper<Blog> {
     public Page<BlogShow> getBlogListByQuery(String query, Page page);
     //博客详情
     public BlogDetail getBlogDetailById(Long id);
+    //查询分类页/归档页/标签页的博客列表
+    public Page<BlogShow> getBlogListForCertainShow(BlogSearch blogSearch,Page page);
+    //查询年份
+    List<String> selectYear();
+    //根据年份查询对应的博客
+    List<Blog> findBlogByYear(String year);
 }
 
 

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:vertical-align="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>归档页</title>
+    <title>关于我</title>
     <link rel="stylesheet" href="css/me.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
 </head>
@@ -15,8 +15,8 @@
                 <h2 class="ui teal header item">Blog</h2>
                 <a href="#" th:href="@{/}" class="m-item item m-mobile-hide"> <i class="home icon"></i> 首页</a>
                 <a href="#" th:href="@{/toType}" class="m-item item m-mobile-hide"><i class="tags icon"></i>分类</a>
-                <a href="#" th:href="@{/toArchive}" class="active m-item item m-mobile-hide"><i class="clone icon"></i>归档</a>
-                <a href="#" th:href="@{/toAboutMe}" class="m-item item m-mobile-hide"><i class=" info icon"></i>关于我</a>
+                <a href="#" th:href="@{toArchive}" class="m-item item m-mobile-hide"><i class="clone icon"></i>归档</a>
+                <a href="#" th:href="@{/toAboutMe}" class="active m-item item m-mobile-hide"><i class=" info icon"></i>关于我</a>
                 <div class="m-item right item m-mobile-hide">
                     <div class="ui icon inverted transparent input">
                         <form name="search" action="#" method="post" th:action="@{/search}" target="_blank">
@@ -32,35 +32,62 @@
         </a>
     </nav>
 <!--    中间内容-->
-    <div class="m-container-small m-padded-tb-big ">
-        <div class="ui container">
-<!--            头部-->
-            <div class="ui top attached padded segment">
-                <div class=" ui middle aligned two column grid">
-                    <div class="column">
-                        <h3 class="ui teal header">归档</h3>
+<div class="m-container m-padded-tb-big ">
+    <div class="ui container">
+        <div class="ui stackable grid">
+            <!--                中间部分的左边博客列表-->
+            <div class="eleven wide column">
+                <!--                    中间内容-->
+                <div class="ui segment " style="background: rgba(255,00,255,0)">
+                    <div class="m-margin-top-large" style="display:flex">
+                        <img src="images/me.jpg" title="Hometown" class="ui rounded hometown img" style="width: 550px; margin:auto" />
                     </div>
-                    <div class="right aligned column">
-                        共 <h2 class="ui orange header m-inline-block m-text-thin" th:text="${count}"> 14 </h2>博客
+                    <span class="me introduce"></span>
+                </div>
+                <!--                    底部-->
+            </div>
+            <!--                右边的top-->
+            <div class="five wide column">
+                <!--                    最新推荐-->
+                <div class="ui segments m-margin-top-large">
+
+                    <div class="ui top attached segment">
+                        <div class="ui header">关于我</div>
+                    </div>
+                    <div class="ui attached segment">
+                        <span>miko，一个小白新人不断在学习java技术，希望可以通过自己的学习不断去实现自己的新想法</span>
+                    </div>
+                    <div class="ui attached segment">
+                        <div class="ui orange basic left label">编程</div>
+                        <div class="ui orange basic left label">阅读</div>
+                        <div class="ui orange basic left label">运动</div>
+                        <div class="ui orange basic left label">思考</div>
+
+                    </div>
+                    <div class="ui attached segment ">
+                        <div class="ui teal basic left label m-margin-tb-tiny">java</div>
+                        <div class="ui teal basic left label m-margin-tb-tiny">spring</div>
+                        <div class="ui teal basic left label m-margin-tb-tiny">springmvc</div>
+                        <div class="ui teal basic left label m-margin-tb-tiny">mybatis</div>
+                        <div class="ui teal basic left label m-margin-tb-tiny">springboot</div>
+                        <div class="ui teal basic left label m-margin-tb-tiny">mybatisPlus</div>
+                    </div>
+                    <div class="ui bottom attached segment">
+                        <div class="ui center">
+                        <a href="#" class="ui icon button"><i class="github icon"></i> github</a>
+                        <a href="#" class="ui wechat icon button"><i class="weixin icon"></i> wechat</a>
+                        </div>
+                    </div>
+                    <div class="ui wechat-qr flowing popup hidden">
+                        <img src="images/wechat.jpg" class="ui image" style="width: 110px">
                     </div>
                 </div>
             </div>
-            <th:block th:each="item:${records}">
-            <h2 class="ui center aligned header"style="color: aliceblue" th:text="${item.key}">2017</h2>
-            <div class="ui fluid vertical menu">
-                <a href="#" target="_blank" class="item" th:each="blog:${item.value}">
-                    <span>
-                        <i class="circle icon teal mini" ></i>
-                        <span th:text="${blog.title}">关于刻意练习的清单</span>
-                        <div class="ui teal basic  label m-padded-mini" th:text="${#dates.format(blog.createTime,'MMMdd')}">9月03</div>
-                    </span>
-                    <div class="ui basic orange label m-padded-mini" th:text="${blog.flag}">原创</div>
-                </a>
-
-            </div>
-            </th:block>
         </div>
     </div>
+    <br>
+    <br>
+</div>
 
 <!--    底部footer-->
     <footer class="ui inverted vertical segment m-padded-tb-massive">
@@ -89,8 +116,8 @@
                     </div>
                 </div>
                 <div class="seven wide column">
-                    <h4 class="ui inverted header  m-text-spaced m-opacity-mini">随想</h4>
-                    <p class="m-text-thin m-text-spaced m-opacity-mini">弱小和无知，不是生存的障碍，傲慢才是。</p>
+                    <h4 class="ui inverted header  m-text-spaced m-opacity-mini">介绍</h4>
+                    <p class="m-text-thin m-text-spaced m-opacity-mini">生きるとは自分に正直に生きたい</p>
                 </div>
 
             </div>
@@ -105,6 +132,10 @@
         $('.menu.toggle').click(function (){
             //用于切换class样式的。有则加之，没有则去之
             $('.m-item').toggleClass('m-mobile-hide');
+        });
+        $(".wechat").popup({
+            popup:$(".wechat-qr"),
+            position:"bottom center"
         });
     })
 </script>

@@ -20,10 +20,17 @@ public interface BlogService extends IService<Blog> {
     public Page<BlogQuery> getBlogList(Page<BlogSearch> page, BlogSearch blogSearch);
     int saveBlog(Blog blog);
     int updateBlog(Blog blog);
+    //我有一种感觉，那就是这几个方法可以合并一下
     //主页的blog列表
     public Page<BlogShow> getBlogListForShow(Page page);
     //全局搜索
     public Page<BlogShow> getBlogListByQuery(String query,Page page);
     //博客详情
     public BlogDetail getBlogDetailById(Long id);
+    //查询分类页/归档页/标签页的博客列表
+    public Page<BlogShow> getBlogListForShow(BlogSearch blogSearch,Page page);
+    //收集文章的年份
+    public List<String> selectYear();
+    //根据年份收集博客信息
+    public List<Blog> findBlogByYear(String year);
 }

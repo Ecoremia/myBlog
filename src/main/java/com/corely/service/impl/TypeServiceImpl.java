@@ -8,6 +8,7 @@ import com.corely.entity.Type;
 import com.corely.handler.NotFoundException;
 import com.corely.service.TypeService;
 import com.corely.dao.TypeMapper;
+import com.corely.vo.TypeShow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,17 @@ public class TypeServiceImpl extends ServiceImpl<TypeMapper, Type>
         QueryWrapper<Type> wrapper = new QueryWrapper<>();
         wrapper.eq("name",name);
         return typeMapper.selectOne(wrapper);
+    }
+
+    @Override
+    public List<Type> getTypeTop(Page<Type> page) {
+        Page<Type> typePage = typeMapper.selectPage(page, null);
+        return typePage.getRecords();
+    }
+
+    @Override
+    public List<TypeShow> selectTypesAndCount(Page page) {
+        return typeMapper.selectTypesAndCount(page);
     }
 
 }

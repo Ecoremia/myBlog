@@ -13,11 +13,10 @@
         <div class="ui container">
             <div class="ui inverted secondary stackable menu">
                 <h2 class="ui teal header item">Blog</h2>
-                <a href="#" class="m-item item m-mobile-hide"> <i class="home icon"></i> 首页</a>
-                <a href="#" class="m-item item m-mobile-hide"><i class="idea icon"></i>标签</a>
-                <a href="#" class="active m-item item m-mobile-hide"><i class="tags icon"></i>分类</a>
-                <a href="#" class="m-item item m-mobile-hide"><i class="clone icon"></i>归档</a>
-                <a href="#" class="m-item item m-mobile-hide"><i class=" info icon"></i>关于我</a>
+                <a href="#" th:href="@{/}" class="m-item item m-mobile-hide"> <i class="home icon"></i> 首页</a>
+                <a href="#" th:href="@{/toType}" class="active m-item item m-mobile-hide"><i class="tags icon"></i>分类</a>
+                <a href="#" th:href="@{toArchive}" class="m-item item m-mobile-hide"><i class="clone icon"></i>归档</a>
+                <a href="#" th:href="@{/toAboutMe}" class="m-item item m-mobile-hide"><i class=" info icon"></i>关于我</a>
                 <div class="m-item right item m-mobile-hide">
                     <div class="ui icon inverted transparent input">
                         <form name="search" action="#" method="post" th:action="@{/search}" target="_blank">
@@ -42,218 +41,63 @@
                         <h3 class="ui teal header">分类</h3>
                     </div>
                     <div class="right aligned column">
-                        共 <h2 class="ui orange header m-inline-block m-text-thin"> 14 </h2>个
+                        共 <h2 class="ui orange header m-inline-block m-text-thin" th:text="${#lists.size(types)}"> 14 </h2>个
                     </div>
                 </div>
             </div>
 <!--            分类-->
             <div class="ui attached segment m-padded-tb-large">
-                <div class="ui labeled button m-margin-tb-tiny">
-                    <a href="#" class="ui basic teal button">思考与感悟</a>
-                    <div class="ui basic teal left pointing label">24</div>
-                </div>
-                <div class="ui labeled button m-margin-tb-tiny">
-                    <a href="#" class="ui basic button">思考与感悟</a>
-                    <div class="ui basic left pointing label">24</div>
-                </div>
-                <div class="ui labeled button m-margin-tb-tiny">
-                    <a href="#" class="ui basic button">思考与感悟</a>
-                    <div class="ui basic left pointing label">24</div>
-                </div>
-                <div class="ui labeled button m-margin-tb-tiny">
-                    <a href="#" class="ui basic button">思考与感悟</a>
-                    <div class="ui basic left pointing label">24</div>
-                </div>
-                <div class="ui labeled button m-margin-tb-tiny">
-                    <a href="#" class="ui basic button">清单</a>
-                    <div class="ui basic left pointing label">24</div>
-                </div>
-                <div class="ui labeled button m-margin-tb-tiny">
-                    <a href="#" class="ui basic button">清单</a>
-                    <div class="ui basic left pointing label">24</div>
+                <div class="ui labeled button m-margin-tb-tiny" th:each="type:${types}">
+                    <a href="#" class="ui basic button" th:href="@{/toType(id=${type.id})}" th:classappend="${type.id==activiteId} ? 'teal'" th:text="${type.name}">思考与感悟</a>
+                    <div class="ui basic left pointing label" th:classappend="${type.id==activiteId} ? 'teal'" th:text="${type.count}">24</div>
                 </div>
             </div>
 <!--            博客列表-->
             <div class="ui top attached teal segment">
-                <div class="ui segment vertical padded m-padded-tb-large m-mobile-lr-clear">
+                <div class="ui segment vertical padded m-padded-tb-large" th:each="blog:${blogList.records}">
                     <div class="ui mobile reversed stackable grid">
                         <!--                                博客内容的简介-->
                         <div class="eleven wide column">
-                            <h3 class="ui header">博客标题</h3>
-                            <p class="m-text">工作前喜欢穿jk，工作后考虑到工作性质不穿了，但开始尝试其他各种风格，有时候朋友也会说我你穿这件裙子显胖，但我都是很无所谓，反正我喜欢我，我觉得好看，就行了，不用在意别人的眼光。当你真的穿出去了你会发现——穿好看的裙子人是真的会很开心！！！！</p>
+                            <h3 class="ui header"><a class="m-black" th:href="@{/toBlogDetail(id=${blog.id})}">[[${blog.title}]]</a></h3>
+                            <p class="m-text" th:text="${blog.description}">工作前喜欢穿jk，工作后考虑到工作性质不穿了，但开始尝试其他各种风格，有时候朋友也会说我你穿这件裙子显胖，但我都是很无所谓，反正我喜欢我，我觉得好看，就行了，不用在意别人的眼光。当你真的穿出去了你会发现——穿好看的裙子人是真的会很开心！！！！</p>
                             <div class="ui grid">
                                 <div class="eleven wide column">
                                     <div class="ui horizontal link list mini">
                                         <div class="item">
-                                            <img src="images/img1.jpg" alt="" class="ui avatar image">
-                                            <div class="content"><a href="#" class="header">miko酱</a></div>
+                                            <img src="images/img1.jpg" th:src="${blog.avatar}" alt="" class="ui avatar image">
+                                            <div class="content"><a href="#" class="header" >[[${blog.username}]]</a></div>
                                         </div>
                                         <div class="item">
-                                            <i class="calendar icon"></i>2022/10/20
-                                        </div>
+                                            <i class="calendar icon"></i><span th:text="${#dates.format(blog.createTime,'yyyy-MM-dd')}">2022/10/20</span></div>
                                         <div class="item">
-                                            <i class="eye icon"></i>234
+                                            <i class="eye icon"></i><span th:text="${blog.views}">234</span>
                                         </div>
                                     </div>
                                 </div>
                                 <!--                                        博客内容的图片-->
                                 <div class="right aligned five wide column">
-                                    <a href="#" target="_blank" class="ui label teal basic label  m-padded-tiny m-text-thin">认知升级</a>
+                                    <a href="#" th:text="${blog.typeName}" target="_blank" class="ui label teal basic label  m-padded-tiny m-text-thin">认知升级</a>
                                 </div>
                             </div>
                         </div>
                         <div class="five wide column">
                             <a href="#" target="_blank">
-                                <img src="images/img1.jpg" alt="" class="ui rounded image" height="120">
+                                <img src="images/img1.jpg" th:src="${blog.firstPicture}"alt="" class="ui rounded image" height="120">
                             </a>
                         </div>
                     </div>
                 </div>
-                <div class="ui segment vertical padded m-padded-tb-large m-mobile-lr-clear">
-                    <div class="ui mobile reversed stackable grid">
-                        <!--                                博客内容的简介-->
-                        <div class="eleven wide column">
-                            <h3 class="ui header">博客标题</h3>
-                            <p class="m-text">工作前喜欢穿jk，工作后考虑到工作性质不穿了，但开始尝试其他各种风格，有时候朋友也会说我你穿这件裙子显胖，但我都是很无所谓，反正我喜欢我，我觉得好看，就行了，不用在意别人的眼光。当你真的穿出去了你会发现——穿好看的裙子人是真的会很开心！！！！</p>
-                            <div class="ui grid">
-                                <div class="eleven wide column">
-                                    <div class="ui horizontal link list mini">
-                                        <div class="item">
-                                            <img src="images/img1.jpg" alt="" class="ui avatar image">
-                                            <div class="content"><a href="#" class="header">miko酱</a></div>
-                                        </div>
-                                        <div class="item">
-                                            <i class="calendar icon"></i>2022/10/20
-                                        </div>
-                                        <div class="item">
-                                            <i class="eye icon"></i>234
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--                                        博客内容的图片-->
-                                <div class="right aligned five wide column">
-                                    <a href="#" target="_blank" class="ui label teal basic label  m-padded-tiny m-text-thin">认知升级</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="five wide column">
-                            <a href="#" target="_blank">
-                                <img src="images/img1.jpg" alt="" class="ui rounded image" height="120">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui segment vertical padded m-padded-tb-large m-mobile-lr-clear">
-                    <div class="ui mobile reversed stackable grid">
-                        <!--                                博客内容的简介-->
-                        <div class="eleven wide column">
-                            <h3 class="ui header">博客标题</h3>
-                            <p class="m-text">工作前喜欢穿jk，工作后考虑到工作性质不穿了，但开始尝试其他各种风格，有时候朋友也会说我你穿这件裙子显胖，但我都是很无所谓，反正我喜欢我，我觉得好看，就行了，不用在意别人的眼光。当你真的穿出去了你会发现——穿好看的裙子人是真的会很开心！！！！</p>
-                            <div class="ui grid">
-                                <div class="eleven wide column">
-                                    <div class="ui horizontal link list mini">
-                                        <div class="item">
-                                            <img src="images/img1.jpg" alt="" class="ui avatar image">
-                                            <div class="content"><a href="#" class="header">miko酱</a></div>
-                                        </div>
-                                        <div class="item">
-                                            <i class="calendar icon"></i>2022/10/20
-                                        </div>
-                                        <div class="item">
-                                            <i class="eye icon"></i>234
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--                                        博客内容的图片-->
-                                <div class="right aligned five wide column">
-                                    <a href="#" target="_blank" class="ui label teal basic label  m-padded-tiny m-text-thin">认知升级</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="five wide column">
-                            <a href="#" target="_blank">
-                                <img src="images/img1.jpg" alt="" class="ui rounded image" height="120">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui segment vertical padded m-padded-tb-large m-mobile-lr-clear">
-                    <div class="ui mobile reversed stackable grid">
-                        <!--                                博客内容的简介-->
-                        <div class="eleven wide column">
-                            <h3 class="ui header">博客标题</h3>
-                            <p class="m-text">工作前喜欢穿jk，工作后考虑到工作性质不穿了，但开始尝试其他各种风格，有时候朋友也会说我你穿这件裙子显胖，但我都是很无所谓，反正我喜欢我，我觉得好看，就行了，不用在意别人的眼光。当你真的穿出去了你会发现——穿好看的裙子人是真的会很开心！！！！</p>
-                            <div class="ui grid">
-                                <div class="eleven wide column">
-                                    <div class="ui horizontal link list mini">
-                                        <div class="item">
-                                            <img src="images/img1.jpg" alt="" class="ui avatar image">
-                                            <div class="content"><a href="#" class="header">miko酱</a></div>
-                                        </div>
-                                        <div class="item">
-                                            <i class="calendar icon"></i>2022/10/20
-                                        </div>
-                                        <div class="item">
-                                            <i class="eye icon"></i>234
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--                                        博客内容的图片-->
-                                <div class="right aligned five wide column">
-                                    <a href="#" target="_blank" class="ui label teal basic label  m-padded-tiny m-text-thin">认知升级</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="five wide column">
-                            <a href="#" target="_blank">
-                                <img src="images/img1.jpg" alt="" class="ui rounded image" height="120">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui segment vertical padded m-padded-tb-large m-mobile-lr-clear">
-                    <div class="ui mobile reversed stackable grid">
-                        <!--                                博客内容的简介-->
-                        <div class="eleven wide column">
-                            <h3 class="ui header">博客标题</h3>
-                            <p class="m-text">工作前喜欢穿jk，工作后考虑到工作性质不穿了，但开始尝试其他各种风格，有时候朋友也会说我你穿这件裙子显胖，但我都是很无所谓，反正我喜欢我，我觉得好看，就行了，不用在意别人的眼光。当你真的穿出去了你会发现——穿好看的裙子人是真的会很开心！！！！</p>
-                            <div class="ui grid">
-                                <div class="eleven wide column">
-                                    <div class="ui horizontal link list mini">
-                                        <div class="item">
-                                            <img src="images/img1.jpg" alt="" class="ui avatar image">
-                                            <div class="content"><a href="#" class="header">miko酱</a></div>
-                                        </div>
-                                        <div class="item">
-                                            <i class="calendar icon"></i>2022/10/20
-                                        </div>
-                                        <div class="item">
-                                            <i class="eye icon"></i>234
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--                                        博客内容的图片-->
-                                <div class="right aligned five wide column">
-                                    <a href="#" target="_blank" class="ui label teal basic label  m-padded-tiny m-text-thin">认知升级</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="five wide column">
-                            <a href="#" target="_blank">
-                                <img src="images/img1.jpg" alt="" class="ui rounded image" height="120">
-                            </a>
-                        </div>
-                    </div>
-                </div>
+
             </div>
 <!--            分页-->
-            <div class="ui bottom attached segment">
+
+            <div class="ui bottom attached segment" th:if="${blogList.pages>1}">
                 <div class=" ui middle aligned two column grid">
                     <div class="column">
-                        <a href="#" class="ui teal basic mini button">上一页</a>
+                        <a href="#" th:href="@{/(current=${blogList.current}-1)}" th:if="${blogList.hasPrev}" class="ui teal basic mini button">上一页</a>
                     </div>
                     <div class="right aligned column">
-                        <a href="#" class="ui teal basic mini button">下一页</a>
+                        <a href="#" th:href="@{/(current=${blogList.current}+1)}" th:if="${blogList.hasNext}" class="ui teal basic mini button">下一页</a>
                     </div>
                 </div>
             </div>
@@ -287,8 +131,8 @@
                     </div>
                 </div>
                 <div class="seven wide column">
-                    <h4 class="ui inverted header  m-text-spaced m-opacity-mini">介绍</h4>
-                    <p class="m-text-thin m-text-spaced m-opacity-mini">个人介绍</p>
+                    <h4 class="ui inverted header  m-text-spaced m-opacity-mini">気が済むまで踊り続ける</h4>
+                    <p class="m-text-thin m-text-spaced m-opacity-mini">誰かが貧乏くじを引いて、一人きりで泣いているのなら、夜が明けたって、I don't give up</p>
                 </div>
 
             </div>

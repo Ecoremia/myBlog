@@ -14,6 +14,8 @@
             <result property="blogId" column="blog_id" jdbcType="BIGINT"/>
             <result property="parentCommentId" column="parent_comment_id" jdbcType="BIGINT"/>
             <result property="adminComment" column="admin_comment" jdbcType="BIT"/>
+        <result property="adminComment" column="admin_comment" jdbcType="BIT"/>
+        <result property="rootCommentId" column="root_comment_id" jdbcType="BIT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -21,4 +23,31 @@
         content,avatar,create_time,
         blog_id,parent_comment_id,admin_comment
     </sql>
+    <insert id="insertComment" parameterType="com.corely.entity.Comment">
+         insert into t_comment (nickname,email,content,avatar,create_time,blog_id,parent_comment_id,admin_comment,root_comment_id)
+        values (#{nickname},#{email},#{content},#{avatar},#{createTime},#{blogId},#{parentCommentId},#{adminComment},#{rootCommentId});
+    </insert>
+    <select id="selectRootComment" resultType="com.corely.entity.Comment">
+        select id,nickname,email,content,avatar,create_time,blog_id,parent_comment_id,admin_comment,root_comment_id
+        from t_comment
+        where blog_id = #{blogId}
+        and root_comment_id is null
+        order by create_time desc
+    </select>
+    <select id="selectChildComment" resultType="com.corely.entity.Comment">
+        select id,nickname,email,content,avatar,create_time,blog_id,parent_comment_id,admin_comment,root_comment_id
+        from t_comment
+        where blog_id = #{blogId}
+        and root_comment_id = #{rootCommentId}
+        order by create_time asc
+    </select>
+    <select id="selectNicknameById" resultType="java.lang.String">
+        select nickname from t_comment
+        where id = #{id}
+    </select>
+    <select id="selectCommentById" resultType="com.corely.entity.Comment">
+        select id,nickname,email,content,avatar,create_time,blog_id,parent_comment_id,admin_comment,root_comment_id
+        from t_comment
+        where id = #{id}
+    </select>
 </mapper>

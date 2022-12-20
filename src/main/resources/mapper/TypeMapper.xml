@@ -12,4 +12,13 @@
     <sql id="Base_Column_List">
         id,name
     </sql>
+    <select id="selectTypesAndCount" resultType="com.corely.vo.TypeShow">
+       SELECT t.id,t.name,b.count
+        FROM t_type t
+        INNER JOIN
+        (SELECT COUNT(id) AS 'count',type_id FROM t_blog
+	    WHERE published = TRUE
+        GROUP BY type_id) b
+        ON t.id = b.type_id
+    </select>
 </mapper>

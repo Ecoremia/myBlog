@@ -6,11 +6,14 @@ import com.corely.entity.Blog;
 import com.corely.service.BlogService;
 import com.corely.service.TypeService;
 import com.corely.vo.BlogDetail;
+import com.corely.vo.TypeShow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 /**
  * 博客首页的controlller
@@ -26,15 +29,22 @@ public class IndexController {
     public String index(Model model,Integer current){
         /**
          * 首页还有很多内容没展示。可以好好考虑一下自己究竟想要展示什么内容
-         * 标签啊，最新评论之类的
          */
-        Page<Object> page = new Page<>();
+        //显示分类
+        Page page = new Page<>();
+        page.setSize(6);
+        page.setDesc("count");
+        List<TypeShow> types = typeService.selectTypesAndCount(page);
+        //显示最新推荐
+
+        //显示博客
         if(current==null){
             current = 1;
         }
         page.setCurrent(current);
         page.setDesc("create_time");
         page.setSize(10);
+        model.addAttribute("types",types);
         model.addAttribute("page",blogService.getBlogListForShow(page));
         model.addAttribute("hasPrev",page.hasPrevious());
         model.addAttribute("hasNext",page.hasNext());
@@ -61,5 +71,10 @@ public class IndexController {
         model.addAttribute("hasNext",page.hasNext());
         model.addAttribute("query",query);
         return "search";
+    }
+    //跳转到博客关于我页面
+    @GetMapping("/toAboutMe")
+    public String toAboutMe(){
+        return "aboutMe";
     }
 }

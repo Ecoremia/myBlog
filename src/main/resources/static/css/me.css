@@ -141,6 +141,13 @@ body {
     position: fixed !important;
     z-index: 10 !important;
 }
+/*给自我介绍的字体设置格式*/
+.me.introduce{
+    color: #01a0e4 !important;
+    font-family: 华光楷体_CNKI;
+    font-size: 20px;
+    font-weight: bold;
+}
 /*@media 一定要放在最后面  and 后面记得有空格*/
 @media screen and (max-width: 768px){
     .m-mobile-hide{

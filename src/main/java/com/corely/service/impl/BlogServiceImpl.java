@@ -72,6 +72,21 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog>
     public BlogDetail getBlogDetailById(Long id) {
         return blogMapper.getBlogDetailById(id);
     }
+
+    @Override
+    public Page<BlogShow> getBlogListForShow(BlogSearch blogSearch, Page page) {
+        return blogMapper.getBlogListForCertainShow(blogSearch,page);
+    }
+
+    @Override
+    public List<String> selectYear() {
+        return blogMapper.selectYear();
+    }
+
+    @Override
+    public List<Blog> findBlogByYear(String year) {
+        return blogMapper.findBlogByYear(year);
+    }
 }
 
 
